@@ -1,3 +1,12 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [terraform-apigateway-apikey](#terraform-apigateway-apikey)
+  - [Usage](#usage)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # terraform-apigateway-apikey
 
 Terraform module, which creates AWS apigateway api key resources.
