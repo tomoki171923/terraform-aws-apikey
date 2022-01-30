@@ -10,6 +10,12 @@ variable "api_id" {
   default     = null
 }
 
+variable "client_name" {
+  description = "client name to use rest api"
+  type        = string
+  default     = ""
+}
+
 variable "api_keys" {
   description = "api keys"
   type = list(
