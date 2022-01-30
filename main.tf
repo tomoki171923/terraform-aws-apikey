@@ -44,8 +44,8 @@ resource "aws_api_gateway_usage_plan_key" "this" {
 */
 resource "aws_api_gateway_usage_plan" "this" {
   for_each    = var.usage_plans
-  name        = "${var.api_name}-${each.key}"
-  description = "${var.api_name} ${each.value.description}"
+  name        = var.client_name == null ? "${var.api_name}-${each.key}" : "${var.client_name}-${var.api_name}-${each.key}"
+  description = var.client_name == null ? "${var.api_name} ${each.value.description}" : "${var.api_name} ${each.value.description} for ${var.client_name}."
   #product_code = "MYCODE"
 
   dynamic "api_stages" {
