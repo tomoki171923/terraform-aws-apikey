@@ -1,23 +1,23 @@
 variable "api_name" {
-  description = "rest api name on aws apigateway"
+  description = "api name on aws apigateway."
   type        = string
   default     = null
 }
 
 variable "api_id" {
-  description = "rest api id on aws apigateway"
+  description = "api id on aws apigateway."
   type        = string
   default     = null
 }
 
 variable "client_name" {
-  description = "client name to use rest api"
+  description = "client name to use this api."
   type        = string
   default     = null
 }
 
 variable "api_keys" {
-  description = "api keys"
+  description = "api keys. name: api key's name, usage_plan: usage plan name to attach."
   type = list(
     object({
       name       = string
@@ -37,9 +37,19 @@ variable "api_keys" {
 }
 
 variable "usage_plans" {
-  description = "api usage plans"
-  type = object({
-    free = object({
+  description = <<EOF
+  api usage plans.
+    name: usage plan's name,
+    description: usage plan's description,
+    burst_limit: the api request burst limit,
+    rate_limit: the api request steady-state rate limit,
+    quota_limit: the maximum number of requests that can be made in a given time period,
+    quota_period: the time period in which the limit applies. valid values are DAY, WEEK or MONTH,
+    stages: api stage names of the associated api stage in a usage plan.
+EOF
+  type = list(
+    object({
+      name         = string
       description  = string
       burst_limit  = number
       rate_limit   = number
@@ -47,57 +57,37 @@ variable "usage_plans" {
       quota_period = string
       stages       = list(string)
     })
-    basic = object({
-      description  = string
-      burst_limit  = number
-      rate_limit   = number
-      quota_limit  = number
-      quota_period = string
-      stages       = list(string)
-    })
-    flex = object({
-      description  = string
-      burst_limit  = number
-      rate_limit   = number
-      quota_limit  = number
-      quota_period = string
-      stages       = list(string)
-    })
-    premium = object({
-      description  = string
-      burst_limit  = number
-      rate_limit   = number
-      quota_limit  = number
-      quota_period = string
-      stages       = list(string)
-    })
-  })
-  default = {
-    free = {
+  )
+  default = [
+    {
+      name         = "free"
       description  = "API Development Usage Plan."
       burst_limit  = 20
       rate_limit   = 40
       quota_limit  = 1000
       quota_period = "DAY"
       stages       = ["dev", "st"]
-    }
-    basic = {
+    },
+    {
+      name         = "basic"
       description  = "API Production Usage Plan. (Basic)"
       burst_limit  = 20
       rate_limit   = 40
       quota_limit  = 1000
       quota_period = "DAY"
       stages       = ["pro"]
-    }
-    flex = {
+    },
+    {
+      name         = "flex"
       description  = "API Production Usage Plan. (Flex)"
       burst_limit  = 100
       rate_limit   = 200
       quota_limit  = 5000
       quota_period = "DAY"
       stages       = ["pro"]
-    }
-    premium = {
+    },
+    {
+      name         = "premium"
       description  = "API Production Usage Plan. (Premium)"
       burst_limit  = 400
       rate_limit   = 200
@@ -105,5 +95,5 @@ variable "usage_plans" {
       quota_period = "DAY"
       stages       = ["pro"]
     }
-  }
+  ]
 }
