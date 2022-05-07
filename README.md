@@ -27,6 +27,14 @@ module "api_key" {
 }
 ```
 
+## Authors
+
+Module managed by [tomoki171923](https://github.com/tomoki171923).
+
+## License
+
+MIT Licensed. See LICENSE for full details.
+
 ## For Contributor
 
 ### set pre-commit
