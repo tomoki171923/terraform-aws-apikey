@@ -1,17 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
-
-- [terraform-aws-apikey](#terraform-aws-apikey)
-  - [For User](#for-user)
-    - [Usage](#usage)
-  - [Authors](#authors)
-  - [License](#license)
-  - [For Contributor](#for-contributor)
-    - [set pre-commit](#set-pre-commit)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # terraform-aws-apikey
 
 Terraform module, which creates AWS apigateway api key resources.
@@ -27,7 +13,6 @@ module "api_key" {
   api_id      = "your_api_id"
   client_name = "api_client_name"
   api_keys = [
-
     {
       name       = "your_api_name-dev-key"
       usage_plan = "free"
@@ -36,10 +21,84 @@ module "api_key" {
       name       = "your_api_name-pro-key"
       usage_plan = "flex"
     }
-
+  ]
+  usage_plans = [
+    {
+      name         = "free"
+      description  = "API Development Usage Plan."
+      burst_limit  = 100
+      rate_limit   = 200
+      quota_limit  = 5000
+      quota_period = "DAY"
+      stages       = ["dev", "st"]
+    },
+    {
+      name         = "basic"
+      description  = "API Production Usage Plan. (Basic)"
+      burst_limit  = 100
+      rate_limit   = 200
+      quota_limit  = 5000
+      quota_period = "DAY"
+      stages       = ["pro"]
+    },
+    {
+      name         = "flex"
+      description  = "API Production Usage Plan. (Flex)"
+      burst_limit  = 500
+      rate_limit   = 1000
+      quota_limit  = 25000
+      quota_period = "DAY"
+      stages       = ["pro"]
+    },
+    {
+      name         = "premium"
+      description  = "API Production Usage Plan. (Premium)"
+      burst_limit  = 1000
+      rate_limit   = 2000
+      quota_limit  = 50000
+      quota_period = "DAY"
+      stages       = ["pro"]
+    }
   ]
 }
 ```
+
+## Examples
+
+* [basic](https://github.com/tomoki171923/terraform-aws-apikey/tree/main/examples/basic/)
+
+## Requirements
+
+| Name      | Version |
+| --------- | ------- |
+| terraform | >= 1.0  |
+| aws       | ~> 4.11 |
+
+## Providers
+
+| Name | Version |
+| ---- | ------- |
+| aws  | ~> 4.11 |
+
+## Inputs
+
+| Name        | Description                                                                 | Type                                                                      | Default                                                                                                                                                           | Required |
+| ----------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| api_name    | The REST API's name on Amazon API Gateway                                   | `string` | `""` |   yes    |
+| api_id      | The REST API's id on Amazon API Gateway                                     | `string` | `""` |   yes    |
+| client_name | The Client name to use this api                                             | `string` | `""` |   yes    |
+| api_keys    | REST API keys. name: api key's name, usage_plan: usage plan name to attach. | <pre>list(object({<br> name = string<br> usage_plan = string<br>}))</pre> | <pre>[<br> {<br> name = "client-a-dev-key", <br> usage_plan = "free", <br> }, <br> {<br> name = "client-a-pro-key", <br> usage_plan = "flex", <br> }, <br>]</pre> |    no    |
+
+## Outputs
+
+| Name               | Description                                                                                                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| rest_api           | REST API's Attributes. See [official](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_rest_api#attributes-reference) for details. |
+| deployments        | Attributes of deployments. See [official](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_deployment) for details.                |
+| stages             | Attributes of stages. See [official](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_stage) for details.                          |
+| methods            | Attributes of API Methods. See [official](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method_settings) for details.           |
+| lambda_permissions | Attributes of Lambda Permission. See [official](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) for details.               |
+| log_groups         | Attributes of CloudWatch LogGroups. See [official](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) for details.         |
 
 ## Authors
 
