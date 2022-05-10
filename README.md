@@ -8,56 +8,56 @@ Terraform module, which creates AWS apigateway api key resources.
 
 ```terraform
 module "api_key" {
-  source      = "git::https://github.com/tomoki171923/terraform-aws-apikey.git?ref=v0.1.0"
-  api_name    = "your_api_name"
-  api_id      = "your_api_id"
+  source     = "git::https://github.com/tomoki171923/terraform-aws-apikey.git?ref=v0.1.0"
+  api_name   = "your_api_name"
+  api_id     = "your_api_id"
   client_name = "api_client_name"
   api_keys = [
     {
-      name       = "your_api_name-dev-key"
+      name      = "your_api_name-dev-key"
       usage_plan = "free"
     },
     {
-      name       = "your_api_name-pro-key"
+      name      = "your_api_name-pro-key"
       usage_plan = "flex"
     }
   ]
   usage_plans = [
     {
-      name         = "free"
-      description  = "API Development Usage Plan."
-      burst_limit  = 100
-      rate_limit   = 200
-      quota_limit  = 5000
+      name        = "free"
+      description = "API Development Usage Plan."
+      burst_limit = 100
+      rate_limit  = 200
+      quota_limit = 5000
       quota_period = "DAY"
-      stages       = ["dev", "st"]
+      stages      = ["dev", "st"]
     },
     {
-      name         = "basic"
-      description  = "API Production Usage Plan. (Basic)"
-      burst_limit  = 100
-      rate_limit   = 200
-      quota_limit  = 5000
+      name        = "basic"
+      description = "API Production Usage Plan. (Basic)"
+      burst_limit = 100
+      rate_limit  = 200
+      quota_limit = 5000
       quota_period = "DAY"
-      stages       = ["pro"]
+      stages      = ["pro"]
     },
     {
-      name         = "flex"
-      description  = "API Production Usage Plan. (Flex)"
-      burst_limit  = 500
-      rate_limit   = 1000
-      quota_limit  = 25000
+      name        = "flex"
+      description = "API Production Usage Plan. (Flex)"
+      burst_limit = 500
+      rate_limit  = 1000
+      quota_limit = 25000
       quota_period = "DAY"
-      stages       = ["pro"]
+      stages      = ["pro"]
     },
     {
-      name         = "premium"
-      description  = "API Production Usage Plan. (Premium)"
-      burst_limit  = 1000
-      rate_limit   = 2000
-      quota_limit  = 50000
+      name        = "premium"
+      description = "API Production Usage Plan. (Premium)"
+      burst_limit = 1000
+      rate_limit  = 2000
+      quota_limit = 50000
       quota_period = "DAY"
-      stages       = ["pro"]
+      stages      = ["pro"]
     }
   ]
 }
@@ -82,13 +82,13 @@ module "api_key" {
 
 ## Inputs
 
-| Name        | Description                                                                 | Type                                                                      | Default                                                                                                                                                           | Required |
-| ----------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| api_name    | The API's name on Amazon API Gateway                                   | `string` | `""` |   yes    |
-| api_id      | The API's id on Amazon API Gateway                                     | `string` | `""` |   yes    |
-| client_name | The Client name to use this api                                             | `string` | `""` |   yes    |
-| api_keys    | API keys. name: api key's name, usage_plan: usage plan name to attach. | <pre>list(object({<br> name = string<br> usage_plan = string<br>}))</pre> | <pre>[<br> {<br> name = "client-a-dev-key", <br> usage_plan = "free", <br> }, <br> {<br> name = "client-a-pro-key", <br> usage_plan = "flex", <br> }, <br>]</pre> |    no    |
-| usage_plans    | API Usage plans. name: usage plan's name, description: usage plan's description, burst_limit: the api request burst limit, rate_limit: the api request steady-state rate limit, quota_limit: the maximum number of requests that can be made in a given time period, quota_period: the time period in which the limit applies. valid values are DAY, WEEK or MONTH, stages: api stage names of the associated api stage in a usage plan. | <pre>list(object({<br> name = string<br> usage_plan = string<br>}))</pre> | <pre>[<br> {<br> name = "client-a-dev-key", <br> usage_plan = "free", <br> }, <br> {<br> name = "client-a-pro-key", <br> usage_plan = "flex", <br> }, <br>]</pre> |    no    |
+| Name        | Description                                                                                                                                                                                                                                                                                                                                                                                                                              | Type                                                                                                                                                                                                     | Default                                                                                                                                                           | Required |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| api_name    | The API's name on Amazon API Gateway                                                                                                                                                                                                                                                                                                                                                                                                     | `string` | `""` |   yes    |
+| api_id      | The API's id on Amazon API Gateway                                                                                                                                                                                                                                                                                                                                                                                                       | `string` | `""` |   yes    |
+| client_name | The Client name to use this api                                                                                                                                                                                                                                                                                                                                                                                                          | `string` | `""` |   yes    |
+| api_keys    | API keys. name: api key's name, usage_plan: usage plan name to attach.                                                                                                                                                                                                                                                                                                                                                                   | <pre>list(object({<br> name = string<br> usage_plan = string<br>}))</pre>                                                                                                                                | <pre>[<br> {<br> name = "client-a-dev-key", <br> usage_plan = "free", <br> }, <br> {<br> name = "client-a-pro-key", <br> usage_plan = "flex", <br> }, <br>]</pre> |    no    |
+| usage_plans | API Usage plans. name: usage plan's name, description: usage plan's description, burst_limit: the api request burst limit, rate_limit: the api request steady-state rate limit, quota_limit: the maximum number of requests that can be made in a given time period, quota_period: the time period in which the limit applies. valid values are DAY, WEEK or MONTH, stages: api stage names of the associated api stage in a usage plan. | <pre>list(object({<br> name = string<br> description = string<br> burst_limit = number<br> rate_limit = number<br> quota_limit = number<br> quota_period = string<br> stages = list(string)<br>}))</pre> | <pre>[<br> {<br> name = "client-a-dev-key", <br> usage_plan = "free", <br> }, <br> {<br> name = "client-a-pro-key", <br> usage_plan = "flex", <br> }, <br>]</pre> |    no    |
 
 ## Outputs
 
