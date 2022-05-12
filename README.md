@@ -2,11 +2,14 @@
 
 Terraform module, which creates AWS apigateway api key resources.
 
+[Terraform Registry](https://registry.terraform.io/modules/tomoki171923/apikey/aws/latest)
+
 ## Usage
 
 ```terraform
 module "api_key" {
-  source     = "git::https://github.com/tomoki171923/terraform-aws-apikey.git?ref=v0.1.0"
+  source  = "tomoki171923/apikey/aws"
+  version = "0.1.1"
   api_name   = "your_api_name"
   api_id     = "your_api_id"
   client_name = "api_client_name"
