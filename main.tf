@@ -41,12 +41,31 @@ resource "aws_api_gateway_usage_plan_key" "this" {
 
 /*
     API Usage Plans
+
+      name         = string
+      description  = string
+      burst_limit  = number
+      rate_limit   = number
+      quota_limit  = number
+      quota_period = string
+      stages       = list(string)
 */
 resource "aws_api_gateway_usage_plan" "this" {
-  for_each    = var.usage_plans
-  name        = var.client_name == null ? "${var.api_name}-${each.key}" : "${var.client_name}-${var.api_name}-${each.key}"
+  for_each = {
+    for key in var.usage_plans : key.name => {
+      name         = key.name
+      description  = key.description
+      burst_limit  = key.burst_limit
+      rate_limit   = key.rate_limit
+      quota_limit  = key.quota_limit
+      quota_period = key.quota_period
+      stages       = key.stages
+    }
+  }
+  # for_each    = var.usage_plans
+  name        = var.client_name == null ? "${var.api_name}-${each.value.name}" : "${var.client_name}-${var.api_name}-${each.value.name}"
   description = var.client_name == null ? "${var.api_name} ${each.value.description}" : "${var.api_name} ${each.value.description} for ${var.client_name}."
-  #product_code = "MYCODE"
+  # product_code = "MYCODE"
 
   dynamic "api_stages" {
     for_each = each.value.stages
