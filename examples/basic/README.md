@@ -1,69 +1,16 @@
-# terraform-aws-apikey
+# Complete Simple API KEY on API GATEWAY
 
-Terraform module, which creates AWS apigateway api key resources.
+Configuration in this directory creates API keys and Usage Plans on Amazon API Gateway.
 
 ## Usage
 
-```terraform
-module "api_key" {
-  source     = "git::https://github.com/tomoki171923/terraform-aws-apikey.git?ref=v0.1.0"
-  api_name   = "your_api_name"
-  api_id     = "your_api_id"
-  client_name = "api_client_name"
-  api_keys = [
-    {
-      name      = "your_api_name-dev-key"
-      usage_plan = "free"
-    },
-    {
-      name      = "your_api_name-pro-key"
-      usage_plan = "flex"
-    }
-  ]
-  usage_plans = [
-    {
-      name        = "free"
-      description = "API Development Usage Plan."
-      burst_limit = 100
-      rate_limit  = 200
-      quota_limit = 5000
-      quota_period = "DAY"
-      stages      = ["dev", "st"]
-    },
-    {
-      name        = "basic"
-      description = "API Production Usage Plan. (Basic)"
-      burst_limit = 100
-      rate_limit  = 200
-      quota_limit = 5000
-      quota_period = "DAY"
-      stages      = ["pro"]
-    },
-    {
-      name        = "flex"
-      description = "API Production Usage Plan. (Flex)"
-      burst_limit = 500
-      rate_limit  = 1000
-      quota_limit = 25000
-      quota_period = "DAY"
-      stages      = ["pro"]
-    },
-    {
-      name        = "premium"
-      description = "API Production Usage Plan. (Premium)"
-      burst_limit = 1000
-      rate_limit  = 2000
-      quota_limit = 50000
-      quota_period = "DAY"
-      stages      = ["pro"]
-    }
-  ]
-}
+To run this example you need to execute:
+
+```bash
+terraform init
+terraform plan
+terraform apply
 ```
-
-## Examples
-
-* [basic](https://github.com/tomoki171923/terraform-aws-apikey/tree/main/examples/basic/)
 
 ## Requirements
 
