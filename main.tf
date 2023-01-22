@@ -92,3 +92,11 @@ resource "aws_api_gateway_usage_plan" "this" {
     period = each.value.quota_period
   }
 }
+
+module "cloudwatch_metric_alarm" {
+  count    = var.cloudwatch_metric_alarms == [] ? 0 : 1
+  source   = "./modules/cloudwatch_metric_alarm/"
+  api_name = var.api_name
+  alarms   = var.cloudwatch_metric_alarms
+  tags     = var.tags
+}
