@@ -89,8 +89,8 @@ EOF
     {
       name         = "premium"
       description  = "API Production Usage Plan. (Premium)"
-      burst_limit  = 400
-      rate_limit   = 200
+      burst_limit  = 200
+      rate_limit   = 400
       quota_limit  = 10000
       quota_period = "DAY"
       stages       = ["pro"]
