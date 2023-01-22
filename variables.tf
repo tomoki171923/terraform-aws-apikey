@@ -89,11 +89,46 @@ EOF
     {
       name         = "premium"
       description  = "API Production Usage Plan. (Premium)"
-      burst_limit  = 400
-      rate_limit   = 200
+      burst_limit  = 200
+      rate_limit   = 400
       quota_limit  = 10000
       quota_period = "DAY"
       stages       = ["pro"]
     }
   ]
+}
+
+variable "cloudwatch_metric_alarms" {
+  description = <<EOF
+  cloudwatch metric alarm settings.
+    stage_name: stage name on aws apigateway,
+    label: label,
+    description: alarm description,
+    alarm_actions: cloudwatch metric alarm actions,
+    ok_actions: cloudwatch metric ok actions,
+    metric_name: cloudwatch metric name,
+    period: alarms period (sec),
+    statistic: cloudwatch metric statistic,
+    threshold: cloudwatch metric threshold,
+EOF
+  type = list(
+    object({
+      stage_name    = string
+      label         = string
+      description   = string
+      alarm_actions = list(string)
+      ok_actions    = list(string)
+      metric_name   = string
+      period        = number
+      statistic     = string
+      threshold     = number
+    })
+  )
+  default = []
+}
+
+variable "tags" {
+  description = "A map of tags to assign to resources."
+  type        = map(string)
+  default     = {}
 }

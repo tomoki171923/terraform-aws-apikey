@@ -7,6 +7,12 @@
 /*
     API Keys
 */
+locals {
+  tags = {
+    Terraform = true
+    API       = var.api_name
+  }
+}
 resource "aws_api_gateway_api_key" "this" {
   for_each = {
     for key in var.api_keys : key.name => {
@@ -14,6 +20,7 @@ resource "aws_api_gateway_api_key" "this" {
     }
   }
   name = each.value.name
+  tags = merge(local.tags, var.tags)
 }
 
 resource "aws_api_gateway_usage_plan_key" "this" {
@@ -84,4 +91,12 @@ resource "aws_api_gateway_usage_plan" "this" {
     limit  = each.value.quota_limit
     period = each.value.quota_period
   }
+}
+
+module "cloudwatch_metric_alarm" {
+  count    = var.cloudwatch_metric_alarms == [] ? 0 : 1
+  source   = "./modules/cloudwatch_metric_alarm/"
+  api_name = var.api_name
+  alarms   = var.cloudwatch_metric_alarms
+  tags     = var.tags
 }
