@@ -1,15 +1,16 @@
 resource "aws_cloudwatch_metric_alarm" "this" {
   for_each = {
     for key in var.alarms : key.stage_name => {
-      stage_name    = key.stage_name
-      label         = key.label
-      description   = key.description
-      alarm_actions = key.alarm_actions
-      ok_actions    = key.ok_actions
-      metric_name   = key.metric_name
-      period        = key.period
-      statistic     = key.statistic
-      threshold     = key.threshold
+      stage_name         = key.stage_name
+      label              = key.label
+      description        = key.description
+      alarm_actions      = key.alarm_actions
+      ok_actions         = key.ok_actions
+      metric_name        = key.metric_name
+      period             = key.period
+      statistic          = key.statistic
+      threshold          = key.threshold
+      treat_missing_data = key.treat_missing_data
     }
   }
   actions_enabled     = true
