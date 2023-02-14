@@ -50,15 +50,16 @@ module "api_key" {
   ]
   cloudwatch_metric_alarms = [
     {
-      stage_name    = "pro"
-      label         = "call_limit"
-      description   = "[production] sample API CALL count exceeded 80% of the daily limit."
-      alarm_actions = [data.aws_sns_topic.apigateway_alarm.arn]
-      ok_actions    = [data.aws_sns_topic.apigateway_alarm.arn]
-      metric_name   = "Count"
-      period        = 86400 // 1 day
-      statistic     = "Sum"
-      threshold     = 15000 * 0.8
+      stage_name         = "pro"
+      label              = "call_limit"
+      description        = "[production] sample API CALL count exceeded 80% of the daily limit."
+      alarm_actions      = [data.aws_sns_topic.apigateway_alarm.arn]
+      ok_actions         = [data.aws_sns_topic.apigateway_alarm.arn]
+      metric_name        = "Count"
+      period             = 86400 // 1 day
+      statistic          = "Sum"
+      threshold          = 15000 * 0.8
+      treat_missing_data = "missing"
     }
   ]
 }
