@@ -29,6 +29,6 @@ resource "aws_cloudwatch_metric_alarm" "this" {
   period             = each.value.period
   statistic          = each.value.statistic
   threshold          = each.value.threshold
-  treat_missing_data = "missing"
+  treat_missing_data = each.value.treat_missing_data
   tags               = var.tags
 }

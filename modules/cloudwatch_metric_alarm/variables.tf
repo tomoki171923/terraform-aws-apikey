@@ -15,18 +15,20 @@ variable "alarms" {
     period: alarms period (sec),
     statistic: cloudwatch metric statistic,
     threshold: cloudwatch metric threshold,
+    treat_missing_data: how this alarm is to handle missing data points,
 EOF
   type = list(
     object({
-      stage_name    = string
-      label         = string
-      description   = string
-      alarm_actions = list(string)
-      ok_actions    = list(string)
-      metric_name   = string
-      period        = number
-      statistic     = string
-      threshold     = number
+      stage_name         = string
+      label              = string
+      description        = string
+      alarm_actions      = list(string)
+      ok_actions         = list(string)
+      metric_name        = string
+      period             = number
+      statistic          = string
+      threshold          = number
+      treat_missing_data = string
     })
   )
 }
